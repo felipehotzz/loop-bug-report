@@ -50,19 +50,6 @@
       border-radius: 10px; padding: 12px 14px; margin-bottom: 20px;
       color: #ff6b6b; font-size: 14px; display: none;
     }
-    .hint { font-size: 12px; color: #666; margin-top: -14px; margin-bottom: 20px; }
-    .severity-badges { display: flex; gap: 8px; margin-bottom: 20px; }
-    .severity-badge {
-      flex: 1; padding: 10px 8px; border-radius: 10px; border: 2px solid #333;
-      background: #1a1a1a; color: #aaa; font-size: 13px; font-weight: 600;
-      text-align: center; cursor: pointer; transition: all 0.2s;
-    }
-    .severity-badge:hover { border-color: #555; }
-    .severity-badge.active { color: #fff; }
-    .severity-badge[data-value="baixa"].active { border-color: #4CAF50; background: rgba(76,175,80,0.15); color: #4CAF50; }
-    .severity-badge[data-value="media"].active { border-color: #FFC107; background: rgba(255,193,7,0.15); color: #FFC107; }
-    .severity-badge[data-value="alta"].active { border-color: #FF9800; background: rgba(255,152,0,0.15); color: #FF9800; }
-    .severity-badge[data-value="critica"].active { border-color: #f44336; background: rgba(244,67,54,0.15); color: #f44336; }
 
     /* Upload area */
     .upload-area {
@@ -113,8 +100,6 @@
 
     @media (max-width: 400px) {
       .row { flex-direction: column; gap: 0; }
-      .severity-badges { flex-wrap: wrap; }
-      .severity-badge { flex: 1 1 45%; }
     }
   </style>
 </head>
@@ -172,16 +157,6 @@
         </div>
         <p class="upload-hint">Screenshot, foto ou vídeo do bug — máx 5 MB</p>
 
-        <label class="required">Severidade</label>
-        <input type="hidden" name="severity" id="severityInput" value="">
-        <div class="severity-badges">
-          <div class="severity-badge" data-value="baixa" onclick="setSeverity(this)">Baixa</div>
-          <div class="severity-badge" data-value="media" onclick="setSeverity(this)">Média</div>
-          <div class="severity-badge" data-value="alta" onclick="setSeverity(this)">Alta</div>
-          <div class="severity-badge" data-value="critica" onclick="setSeverity(this)">Crítica</div>
-        </div>
-        <p class="hint">Baixa = cosmético &nbsp;|&nbsp; Média = funcional mas tem workaround &nbsp;|&nbsp; Alta = bloqueia fluxo &nbsp;|&nbsp; Crítica = perda de dados / segurança</p>
-
         <button type="submit" id="submitBtn">Enviar Bug Report</button>
       </form>
     </div>
@@ -197,12 +172,6 @@
   <script>
     var API_URL = 'https://tfycgxxaybxypmupzsfm.supabase.co/functions/v1/bug-report';
     var selectedFile = null;
-
-    function setSeverity(el) {
-      document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
-      el.classList.add('active');
-      document.getElementById('severityInput').value = el.dataset.value;
-    }
 
     function showError(msg) {
       var el = document.getElementById('errorMsg');
@@ -264,8 +233,6 @@
       document.getElementById('formView').style.display = 'block';
       document.getElementById('successView').style.display = 'none';
       document.getElementById('bugForm').reset();
-      document.getElementById('severityInput').value = '';
-      document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
       document.getElementById('submitBtn').disabled = false;
       document.getElementById('submitBtn').textContent = 'Enviar Bug Report';
       removeFile(new Event('click'));
@@ -275,12 +242,6 @@
     document.getElementById('bugForm').addEventListener('submit', function(e) {
       e.preventDefault();
       hideError();
-
-      var severity = document.getElementById('severityInput').value;
-      if (!severity) {
-        showError('Selecione a severidade do bug');
-        return;
-      }
 
       var btn = document.getElementById('submitBtn');
       btn.disabled = true;
@@ -292,7 +253,6 @@
       fd.append('screen', document.getElementById('screen').value || '');
       fd.append('description', document.getElementById('description').value);
       fd.append('expected', document.getElementById('expected').value || '');
-      fd.append('severity', severity);
       if (selectedFile) {
         fd.append('attachment', selectedFile);
       }
