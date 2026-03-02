@@ -15,114 +15,47 @@
       justify-content: center;
       padding: 24px 16px;
     }
-    .container {
-      width: 100%;
-      max-width: 520px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .header h1 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .header p {
-      color: #888;
-      font-size: 14px;
-    }
-    .logo {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
+    .container { width: 100%; max-width: 520px; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .header p { color: #888; font-size: 14px; }
+    .logo { font-size: 32px; margin-bottom: 12px; }
     label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #aaa;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      display: block; font-size: 13px; font-weight: 600; color: #aaa;
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .required::after {
-      content: ' *';
-      color: #ff3b30;
-    }
+    .required::after { content: ' *'; color: #ff3b30; }
     input[type="text"], textarea, select {
-      width: 100%;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: #fff;
-      font-size: 15px;
-      font-family: inherit;
-      margin-bottom: 20px;
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; background: #1a1a1a; border: 1px solid #333; border-radius: 10px;
+      padding: 12px 14px; color: #fff; font-size: 15px; font-family: inherit;
+      margin-bottom: 20px; outline: none; transition: border-color 0.2s;
       -webkit-appearance: none;
     }
-    input:focus, textarea:focus, select:focus {
-      border-color: #3897f0;
-    }
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
+    input:focus, textarea:focus, select:focus { border-color: #3897f0; }
+    textarea { min-height: 100px; resize: vertical; }
     select { cursor: pointer; }
     select option { background: #1a1a1a; color: #fff; }
     .row { display: flex; gap: 12px; }
     .row > div { flex: 1; }
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 24px;
-      background: #3897f0;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.2s;
+    button[type="submit"] {
+      width: 100%; padding: 14px; border: none; border-radius: 24px;
+      background: #3897f0; color: #fff; font-size: 16px; font-weight: 600;
+      cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
     }
-    button:hover { opacity: 0.9; }
-    button:active { opacity: 0.7; }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    button[type="submit"]:hover { opacity: 0.9; }
+    button[type="submit"]:active { opacity: 0.7; }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
     .error-msg {
-      background: rgba(255, 59, 48, 0.15);
-      border: 1px solid rgba(255, 59, 48, 0.3);
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-bottom: 20px;
-      color: #ff6b6b;
-      font-size: 14px;
-      display: none;
+      background: rgba(255,59,48,0.15); border: 1px solid rgba(255,59,48,0.3);
+      border-radius: 10px; padding: 12px 14px; margin-bottom: 20px;
+      color: #ff6b6b; font-size: 14px; display: none;
     }
-    .hint {
-      font-size: 12px;
-      color: #666;
-      margin-top: -14px;
-      margin-bottom: 20px;
-    }
-    .severity-badges {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
+    .hint { font-size: 12px; color: #666; margin-top: -14px; margin-bottom: 20px; }
+    .severity-badges { display: flex; gap: 8px; margin-bottom: 20px; }
     .severity-badge {
-      flex: 1;
-      padding: 10px 8px;
-      border-radius: 10px;
-      border: 2px solid #333;
-      background: #1a1a1a;
-      color: #aaa;
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
+      flex: 1; padding: 10px 8px; border-radius: 10px; border: 2px solid #333;
+      background: #1a1a1a; color: #aaa; font-size: 13px; font-weight: 600;
+      text-align: center; cursor: pointer; transition: all 0.2s;
     }
     .severity-badge:hover { border-color: #555; }
     .severity-badge.active { color: #fff; }
@@ -130,28 +63,54 @@
     .severity-badge[data-value="media"].active { border-color: #FFC107; background: rgba(255,193,7,0.15); color: #FFC107; }
     .severity-badge[data-value="alta"].active { border-color: #FF9800; background: rgba(255,152,0,0.15); color: #FF9800; }
     .severity-badge[data-value="critica"].active { border-color: #f44336; background: rgba(244,67,54,0.15); color: #f44336; }
-    /* Success state */
-    .success-view {
-      display: none;
-      text-align: center;
-      padding-top: 60px;
+
+    /* Upload area */
+    .upload-area {
+      border: 2px dashed #333; border-radius: 10px; padding: 20px;
+      text-align: center; cursor: pointer; margin-bottom: 6px;
+      transition: border-color 0.2s; background: #1a1a1a;
+      position: relative;
     }
+    .upload-area:hover { border-color: #555; }
+    .upload-area.has-file { border-color: #3897f0; border-style: solid; }
+    .upload-placeholder { color: #666; font-size: 14px; }
+    .upload-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+    .upload-preview {
+      display: none; align-items: center; gap: 12px;
+      text-align: left;
+    }
+    .upload-preview img {
+      max-height: 72px; max-width: 100px; border-radius: 6px;
+      object-fit: cover; flex-shrink: 0;
+    }
+    .upload-preview .file-info { flex: 1; min-width: 0; }
+    .upload-preview .file-name {
+      font-size: 14px; color: #ddd; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .upload-preview .file-size { font-size: 12px; color: #666; margin-top: 2px; }
+    .remove-btn {
+      background: #333; border: none; color: #aaa; width: 28px; height: 28px;
+      border-radius: 14px; cursor: pointer; font-size: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .remove-btn:hover { background: #555; color: #fff; }
+    .upload-hint { font-size: 12px; color: #666; margin-bottom: 20px; margin-top: 6px; }
+
+    /* Success state */
+    .success-view { display: none; text-align: center; padding-top: 60px; }
     .success-view .icon { font-size: 64px; margin-bottom: 20px; }
     .success-view h1 { font-size: 22px; margin-bottom: 8px; }
     .success-view p { color: #888; font-size: 15px; line-height: 1.5; margin-bottom: 24px; }
     .success-view a {
-      display: inline-block;
-      padding: 12px 32px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 24px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
+      display: inline-block; padding: 12px 32px; background: #1a1a1a;
+      border: 1px solid #333; border-radius: 24px; color: #fff;
+      text-decoration: none; font-size: 15px; font-weight: 500;
       transition: border-color 0.2s;
     }
     .success-view a:hover { border-color: #3897f0; }
+
     @media (max-width: 400px) {
       .row { flex-direction: column; gap: 0; }
       .severity-badges { flex-wrap: wrap; }
@@ -161,7 +120,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Form view -->
     <div id="formView">
       <div class="header">
         <div class="logo">🐛</div>
@@ -196,6 +154,24 @@
         <label for="expected">O que deveria acontecer?</label>
         <textarea id="expected" name="expected" placeholder="Descreva o comportamento esperado..." style="min-height: 70px;"></textarea>
 
+        <label>Anexo</label>
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept="image/*,video/*,.pdf" style="display:none">
+          <div class="upload-placeholder" id="uploadPlaceholder">
+            <span class="upload-icon">📎</span>
+            <span>Toque para anexar screenshot ou arquivo</span>
+          </div>
+          <div class="upload-preview" id="uploadPreview">
+            <img id="previewImg">
+            <div class="file-info">
+              <div class="file-name" id="previewName"></div>
+              <div class="file-size" id="previewSize"></div>
+            </div>
+            <button type="button" class="remove-btn" onclick="removeFile(event)">✕</button>
+          </div>
+        </div>
+        <p class="upload-hint">Screenshot, foto ou vídeo do bug — máx 5 MB</p>
+
         <label class="required">Severidade</label>
         <input type="hidden" name="severity" id="severityInput" value="">
         <div class="severity-badges">
@@ -210,7 +186,6 @@
       </form>
     </div>
 
-    <!-- Success view -->
     <div class="success-view" id="successView">
       <div class="icon">✅</div>
       <h1>Bug registrado!</h1>
@@ -221,6 +196,7 @@
 
   <script>
     var API_URL = 'https://tfycgxxaybxypmupzsfm.supabase.co/functions/v1/bug-report';
+    var selectedFile = null;
 
     function setSeverity(el) {
       document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
@@ -232,10 +208,56 @@
       var el = document.getElementById('errorMsg');
       el.textContent = msg;
       el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function hideError() {
       document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    /* File upload */
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        showError('Arquivo muito grande. O limite é 5 MB.');
+        e.target.value = '';
+        return;
+      }
+      hideError();
+      selectedFile = file;
+      var area = document.getElementById('uploadArea');
+      area.classList.add('has-file');
+      document.getElementById('uploadPlaceholder').style.display = 'none';
+      var preview = document.getElementById('uploadPreview');
+      preview.style.display = 'flex';
+      document.getElementById('previewName').textContent = file.name;
+      document.getElementById('previewSize').textContent = formatSize(file.size);
+
+      var img = document.getElementById('previewImg');
+      if (file.type.startsWith('image/')) {
+        var reader = new FileReader();
+        reader.onload = function(ev) { img.src = ev.target.result; img.style.display = 'block'; };
+        reader.readAsDataURL(file);
+      } else {
+        img.style.display = 'none';
+      }
+    });
+
+    function removeFile(e) {
+      e.stopPropagation();
+      selectedFile = null;
+      document.getElementById('fileInput').value = '';
+      document.getElementById('uploadArea').classList.remove('has-file');
+      document.getElementById('uploadPlaceholder').style.display = 'block';
+      document.getElementById('uploadPreview').style.display = 'none';
+      document.getElementById('previewImg').style.display = 'none';
     }
 
     function resetForm() {
@@ -246,6 +268,7 @@
       document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
       document.getElementById('submitBtn').disabled = false;
       document.getElementById('submitBtn').textContent = 'Enviar Bug Report';
+      removeFile(new Event('click'));
       hideError();
     }
 
@@ -261,27 +284,29 @@
 
       var btn = document.getElementById('submitBtn');
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.textContent = selectedFile ? 'Enviando anexo...' : 'Enviando...';
 
-      var data = {
-        reporter_name: document.getElementById('reporter_name').value,
-        project: document.getElementById('project').value,
-        screen: document.getElementById('screen').value || null,
-        description: document.getElementById('description').value,
-        expected: document.getElementById('expected').value || null,
-        severity: severity
-      };
+      var fd = new FormData();
+      fd.append('reporter_name', document.getElementById('reporter_name').value);
+      fd.append('project', document.getElementById('project').value);
+      fd.append('screen', document.getElementById('screen').value || '');
+      fd.append('description', document.getElementById('description').value);
+      fd.append('expected', document.getElementById('expected').value || '');
+      fd.append('severity', severity);
+      if (selectedFile) {
+        fd.append('attachment', selectedFile);
+      }
 
       fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: fd
       })
       .then(function(res) { return res.json().then(function(j) { return { ok: res.ok, data: j }; }); })
       .then(function(result) {
         if (result.ok && result.data.success) {
+          var name = document.getElementById('reporter_name').value;
           document.getElementById('successMsg').textContent =
-            'Obrigado, ' + data.reporter_name + '. O bug foi salvo e será analisado em breve pelo time de desenvolvimento.';
+            'Obrigado, ' + name + '. O bug foi salvo e será analisado em breve pelo time de desenvolvimento.';
           document.getElementById('formView').style.display = 'none';
           document.getElementById('successView').style.display = 'block';
         } else {
