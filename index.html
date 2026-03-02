@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loop — Bug Report</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .header p {
+      color: #888;
+      font-size: 14px;
+    }
+    .logo {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #aaa;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .required::after {
+      content: ' *';
+      color: #ff3b30;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #3897f0;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    select { cursor: pointer; }
+    select option { background: #1a1a1a; color: #fff; }
+    .row { display: flex; gap: 12px; }
+    .row > div { flex: 1; }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 24px;
+      background: #3897f0;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button:active { opacity: 0.7; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .error-msg {
+      background: rgba(255, 59, 48, 0.15);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      color: #ff6b6b;
+      font-size: 14px;
+      display: none;
+    }
+    .hint {
+      font-size: 12px;
+      color: #666;
+      margin-top: -14px;
+      margin-bottom: 20px;
+    }
+    .severity-badges {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .severity-badge {
+      flex: 1;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: 2px solid #333;
+      background: #1a1a1a;
+      color: #aaa;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .severity-badge:hover { border-color: #555; }
+    .severity-badge.active { color: #fff; }
+    .severity-badge[data-value="baixa"].active { border-color: #4CAF50; background: rgba(76,175,80,0.15); color: #4CAF50; }
+    .severity-badge[data-value="media"].active { border-color: #FFC107; background: rgba(255,193,7,0.15); color: #FFC107; }
+    .severity-badge[data-value="alta"].active { border-color: #FF9800; background: rgba(255,152,0,0.15); color: #FF9800; }
+    .severity-badge[data-value="critica"].active { border-color: #f44336; background: rgba(244,67,54,0.15); color: #f44336; }
+    /* Success state */
+    .success-view {
+      display: none;
+      text-align: center;
+      padding-top: 60px;
+    }
+    .success-view .icon { font-size: 64px; margin-bottom: 20px; }
+    .success-view h1 { font-size: 22px; margin-bottom: 8px; }
+    .success-view p { color: #888; font-size: 15px; line-height: 1.5; margin-bottom: 24px; }
+    .success-view a {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 24px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: border-color 0.2s;
+    }
+    .success-view a:hover { border-color: #3897f0; }
+    @media (max-width: 400px) {
+      .row { flex-direction: column; gap: 0; }
+      .severity-badges { flex-wrap: wrap; }
+      .severity-badge { flex: 1 1 45%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Form view -->
+    <div id="formView">
+      <div class="header">
+        <div class="logo">🐛</div>
+        <h1>Bug Report — Loop</h1>
+        <p>Registre um bug encontrado no app ou painel</p>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <form id="bugForm">
+        <label class="required" for="reporter_name">Seu nome</label>
+        <input type="text" id="reporter_name" name="reporter_name" placeholder="Ex: Maria Silva" required>
+
+        <div class="row">
+          <div>
+            <label class="required" for="project">Projeto</label>
+            <select id="project" name="project" required>
+              <option value="loop-native">App Mobile</option>
+              <option value="loop-in-progress">Painel Web</option>
+              <option value="ambos">Ambos</option>
+            </select>
+          </div>
+          <div>
+            <label for="screen">Tela / Área</label>
+            <input type="text" id="screen" name="screen" placeholder="Ex: Feed, Perfil, Stories...">
+          </div>
+        </div>
+
+        <label class="required" for="description">O que acontece?</label>
+        <textarea id="description" name="description" placeholder="Descreva o bug em detalhes: o que você fez, o que aconteceu..." required></textarea>
+
+        <label for="expected">O que deveria acontecer?</label>
+        <textarea id="expected" name="expected" placeholder="Descreva o comportamento esperado..." style="min-height: 70px;"></textarea>
+
+        <label class="required">Severidade</label>
+        <input type="hidden" name="severity" id="severityInput" value="">
+        <div class="severity-badges">
+          <div class="severity-badge" data-value="baixa" onclick="setSeverity(this)">Baixa</div>
+          <div class="severity-badge" data-value="media" onclick="setSeverity(this)">Média</div>
+          <div class="severity-badge" data-value="alta" onclick="setSeverity(this)">Alta</div>
+          <div class="severity-badge" data-value="critica" onclick="setSeverity(this)">Crítica</div>
+        </div>
+        <p class="hint">Baixa = cosmético &nbsp;|&nbsp; Média = funcional mas tem workaround &nbsp;|&nbsp; Alta = bloqueia fluxo &nbsp;|&nbsp; Crítica = perda de dados / segurança</p>
+
+        <button type="submit" id="submitBtn">Enviar Bug Report</button>
+      </form>
+    </div>
+
+    <!-- Success view -->
+    <div class="success-view" id="successView">
+      <div class="icon">✅</div>
+      <h1>Bug registrado!</h1>
+      <p id="successMsg">O bug foi salvo e será analisado em breve pelo time de desenvolvimento.</p>
+      <a href="javascript:resetForm()">Reportar outro bug</a>
+    </div>
+  </div>
+
+  <script>
+    var API_URL = 'https://tfycgxxaybxypmupzsfm.supabase.co/functions/v1/bug-report';
+
+    function setSeverity(el) {
+      document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
+      el.classList.add('active');
+      document.getElementById('severityInput').value = el.dataset.value;
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function hideError() {
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function resetForm() {
+      document.getElementById('formView').style.display = 'block';
+      document.getElementById('successView').style.display = 'none';
+      document.getElementById('bugForm').reset();
+      document.getElementById('severityInput').value = '';
+      document.querySelectorAll('.severity-badge').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'Enviar Bug Report';
+      hideError();
+    }
+
+    document.getElementById('bugForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      hideError();
+
+      var severity = document.getElementById('severityInput').value;
+      if (!severity) {
+        showError('Selecione a severidade do bug');
+        return;
+      }
+
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      var data = {
+        reporter_name: document.getElementById('reporter_name').value,
+        project: document.getElementById('project').value,
+        screen: document.getElementById('screen').value || null,
+        description: document.getElementById('description').value,
+        expected: document.getElementById('expected').value || null,
+        severity: severity
+      };
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(function(res) { return res.json().then(function(j) { return { ok: res.ok, data: j }; }); })
+      .then(function(result) {
+        if (result.ok && result.data.success) {
+          document.getElementById('successMsg').textContent =
+            'Obrigado, ' + data.reporter_name + '. O bug foi salvo e será analisado em breve pelo time de desenvolvimento.';
+          document.getElementById('formView').style.display = 'none';
+          document.getElementById('successView').style.display = 'block';
+        } else {
+          showError(result.data.error || 'Erro ao enviar. Tente novamente.');
+          btn.disabled = false;
+          btn.textContent = 'Enviar Bug Report';
+        }
+      })
+      .catch(function() {
+        showError('Erro de conexão. Verifique sua internet e tente novamente.');
+        btn.disabled = false;
+        btn.textContent = 'Enviar Bug Report';
+      });
+    });
+  </script>
+</body>
+</html>
